@@ -115,8 +115,8 @@ int main() {
             way_y.push_back(x_prime*sin(-psi) + y_prime*cos(-psi));
           }
 
-          //limiting number of waypoints to 10 or N_t (number of time steps) to fit a polynomial
-          int N_t = 10; //this later needs to be set to N in mpc.cpp
+          //limiting number of waypoints to 10 to fit a polynomial
+          int N_t = 10;
           Eigen::VectorXd way_N_x(N_t);
           Eigen::VectorXd way_N_y(N_t);
 

@@ -22,6 +22,11 @@ double dt = 0.10;
 const double Lf = 2.67;
 
 double ref_v = 30;
+//setting correction factors
+const double c_steer = 1000;
+const double c_accel = 100.0;
+
+
 size_t x_start = 0;
 size_t y_start = x_start + N;
 size_t psi_start = y_start + N;
@@ -61,8 +66,8 @@ class FG_eval {
 
     // Minimize the value gap between sequential actuations.
     for (int t = 0; t < N - 2; t++) {
-      fg[0] += 1000*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
-      fg[0] += CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+      fg[0] += c_steer*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+      fg[0] += c_accel*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
     }
 
     //
