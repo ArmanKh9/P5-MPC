@@ -91,7 +91,7 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-          double v_ms = v*0.44704
+          double v_ms = v*0.44704;
           double delta = j[1]["steering_angle"];
           double accel = j[1]["throttle"];
 
