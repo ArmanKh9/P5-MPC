@@ -24,7 +24,7 @@ const double Lf = 2.67;
 double ref_v = 30;
 //setting correction factors
 const double c_steer = 1000;
-const double c_accel = 100.0;
+const double c_accel = 100000.0;
 
 
 size_t x_start = 0;
