@@ -91,7 +91,9 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-          double v_ms = v*0.44704;
+          double v_ms = v*0.44704
+          double delta = j[1]["steering_angle"];
+          double accel = j[1]["throttle"];
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -130,9 +132,21 @@ int main() {
           double cte = polyeval(coeffs, 0);
           double epsi = -atan(coeffs[1]);
 
+          //Taking 100 millisecons latency into account by predicting state of the car in 100 millisecond from
+          // the current state and introducing it to the solver instead of the current state
+
+          double lat = 0.100; // 100 milliseconds
+
+          double px_lat = v_ms * lat * cos(psi);
+          double py_lat = v_ms * lat * sin(psi);
+          double psi_lat = (v_ms / 2.67) * (-1 * delta) * lat;
+          double v_lat = v_ms + accel * lat;
+          double cte_lat = cte + v_ms * sin(epsi) * lat;
+          double epsi_lat = epsi + (v_ms / 2.67) * (-1 * delta) * lat;
+
           // creating state vector
           Eigen::VectorXd state(6);
-          state<<0, 0, 0, v, cte, epsi;
+          state<<px_lat, py_lat, psi_lat, v_lat, cte_lat, epsi_lat;
 
           double steer_value;
           double throttle_value;
