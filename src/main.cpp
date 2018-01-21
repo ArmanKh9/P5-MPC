@@ -163,7 +163,7 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          for (double i = 0; i < 30; i += 3){
+          for (double i = 0; i < 50; i += 3){
             next_x_vals.push_back(i);
             next_y_vals.push_back(polyeval(coeffs, i));
           }
