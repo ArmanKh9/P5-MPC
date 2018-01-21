@@ -111,8 +111,8 @@ int main() {
           for (int k=0; k<n; k++){
             double x_prime = ptsx[k] - px;
             double y_prime = ptsy[k] - py;
-            way_x.push_back(x_prime*cos(psi) + y_prime*sin(psi));
-            way_y.push_back(-x_prime*sin(psi) + y_prime*cos(psi));
+            way_x.push_back(x_prime*cos(-psi) - y_prime*sin(-psi));
+            way_y.push_back(x_prime*sin(-psi) + y_prime*cos(-psi));
           }
 
           //limiting number of waypoints to 10 or N_t (number of time steps) to fit a polynomial
@@ -132,15 +132,15 @@ int main() {
 
           // creating state vector
           Eigen::VectorXd state(6);
-          state<<0, 0, 0, v_ms, cte, epsi;
+          state<<0, 0, 0, v, cte, epsi;
 
           double steer_value;
           double throttle_value;
 
           auto vars = mpc.Solve(state, coeffs);
 
-          steer_value = vars[6];
-          throttle_value = vars[7];
+          steer_value = vars[0];
+          throttle_value = vars[1];
 
 
           json msgJson;

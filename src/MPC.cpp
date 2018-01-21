@@ -250,13 +250,13 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
     vector<double> result;
 
-  this->mpc_x = {};
-  this->mpc_y = {};
+    this->mpc_x = {};
+    this->mpc_y = {};
 
-  for (int i = 0; i < N; i++) {
-    this->mpc_x.push_back(solution.x[x_start + i]);
-    this->mpc_y.push_back(solution.x[y_start + i]);
-  }
+    for (int i = 0; i < N; i++) {
+      this->mpc_x.push_back(solution.x[x_start + i]);
+      this->mpc_y.push_back(solution.x[y_start + i]);
+    }
 
     result.push_back(solution.x[delta_start]);
     result.push_back(solution.x[a_start]);
