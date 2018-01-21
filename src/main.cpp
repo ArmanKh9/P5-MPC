@@ -143,10 +143,11 @@ int main() {
           double v_lat = v_ms + accel * lat;
           double cte_lat = cte + v_ms * sin(epsi) * lat;
           double epsi_lat = epsi + (v_ms / 2.67) * (-1 * delta) * lat;
+          double v_lat_mph = v_lat/0.44704;
 
           // creating state vector
           Eigen::VectorXd state(6);
-          state<<px_lat, py_lat, psi_lat, v_lat, cte_lat, epsi_lat;
+          state<<px_lat, py_lat, psi_lat, v_lat_mph, cte_lat, epsi_lat;
 
           double steer_value;
           double throttle_value;
