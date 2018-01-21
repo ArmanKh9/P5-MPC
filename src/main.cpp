@@ -132,7 +132,7 @@ int main() {
 
           // creating state vector
           Eigen::VectorXd state(6);
-          state<<0, 0, 0, v, cte, epsi;
+          state<<0, 0, psi, v, cte, epsi;
 
           double steer_value;
           double throttle_value;
@@ -160,8 +160,13 @@ int main() {
           msgJson["mpc_y"] = mpc_y_vals;
 
           //Display the waypoints/reference line
-          vector<double> next_x_vals = way_x;
-          vector<double> next_y_vals = way_y;
+          vector<double> next_x_vals;
+          vector<double> next_y_vals;
+
+          for (double i = 0; i < 100; i += 3){
+            next_x_vals.push_back(i);
+            next_y_vals.push_back(polyeval(coeffs, i));
+          }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
