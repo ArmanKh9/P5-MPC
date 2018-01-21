@@ -252,8 +252,6 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
       mpc_x.push_back(solution.x[x_start + 1 + i]);
       mpc_y.push_back(solution.x[y_start + 1 + i]);
     }
-    std::cout<<"----------->Predicted X = "<<mpc_x<<std::endl;
-    std::cout<<"----------->Predicted Y = "<<mpc_y<<std::endl;
 
     vector<double> result;
     result.push_back(solution.x[delta_start]);
