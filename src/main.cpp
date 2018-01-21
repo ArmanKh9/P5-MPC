@@ -91,7 +91,7 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-          double v_ms = v*0.44704;
+          double v_ms = v*0.44704; //converting velocity to meter per second (not necessary)
           double delta = j[1]["steering_angle"];
           double accel = j[1]["throttle"];
 
@@ -109,7 +109,7 @@ int main() {
           vector<double> way_x(n);
           vector<double> way_y(n);
 
-          //transformin waypoints into vehicle coordinate system
+          //transforming waypoints into vehicle coordinate system negative sign of psi is due to the vehicle model in the simulator
           for (int k=0; k<n; k++){
             double x_prime = ptsx[k] - px;
             double y_prime = ptsy[k] - py;
@@ -130,11 +130,10 @@ int main() {
           //calculating Cross Track Error and Steering Error
           auto coeffs = polyfit(way_N_x, way_N_y, 3);
           double cte = polyeval(coeffs, 0);
-          double epsi = -atan(coeffs[1]);
+          double epsi = -atan(coeffs[1]); // this equation actually was coeffs[1] + 2*coeffs[2]*x0 + 3*coeffs[3]*x0*x0 with x0=0
 
           //Taking 100 millisecons latency into account by predicting state of the car in 100 millisecond from
           // the current state and introducing it to the solver instead of the current state
-
           double lat = 0.100; // 100 milliseconds
 
           double px_lat = v_ms * lat * cos(psi);
@@ -145,16 +144,17 @@ int main() {
           double epsi_lat = epsi + (v_ms / 2.67) * (-1 * delta) * lat;
           double v_lat_mph = v_lat/0.44704;
 
-          // creating state vector
+          // creating state vector by feeding predicted state in 100 milliseconds
           Eigen::VectorXd state(6);
           state<<px_lat, py_lat, psi_lat, v_lat_mph, cte_lat, epsi_lat;
 
           double steer_value;
           double throttle_value;
 
+          // using mpc solver to calculate best steering and throttle values to minimize cross track error
           auto vars = mpc.Solve(state, coeffs);
 
-          steer_value = vars[0]/(deg2rad(25));
+          steer_value = vars[0]/(deg2rad(25)); //deg2rad is to convert the steering value to be [-1,1]
           throttle_value = vars[1];
 
 
@@ -168,9 +168,7 @@ int main() {
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
-          mpc_x_vals.clear();
-          mpc_y_vals.clear();
-
+          // mpc_x & y recorded in MPC.cpp
           mpc_x_vals = mpc.mpc_x;
           mpc_y_vals = mpc.mpc_y;
 
@@ -184,6 +182,7 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
+          // plotting 50 points with 3 points distance between each two
           for (double i = 0; i < 50; i += 3){
             next_x_vals.push_back(i);
             next_y_vals.push_back(polyeval(coeffs, i));
