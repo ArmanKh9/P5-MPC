@@ -101,7 +101,7 @@ int main() {
           */
 
           //number of waypoints
-          n = ptsx.size();
+          int n = ptsx.size();
 
           //vector to store transformed waypoints
           vector<double> way_x(n);
@@ -111,18 +111,18 @@ int main() {
           for (int k=0; k<n; k++){
             double x_prime = ptsx[k] - px;
             double y_prime = ptsy[k] - py;
-            way_x.pushback(x_prime*cos(psi) + y_prime*sin(psi));
-            way_y.pushback(-x_prime*sin(psi) + y_prime*cos(psi));
+            way_x.push_back(x_prime*cos(psi) + y_prime*sin(psi));
+            way_y.push_back(-x_prime*sin(psi) + y_prime*cos(psi));
           }
 
           //limiting number of waypoints to 10 or N_t (number of time steps) to fit a polynomial
-          N_t = 10; //this later needs to be set to N in mpc.cpp
-          vector<double> way_N_x(N_t);
-          vector<double> way_N_y(N_t);
+          int N_t = 10; //this later needs to be set to N in mpc.cpp
+          Eigen::VectorXd way_N_x(N_t);
+          Eigen::VectorXd way_N_y(N_t);
 
           for (int k=0; k<10; k++){
-            way_N_x.pushback(way_x);
-            way_N_y.pushback(way_y);
+            way_N_x.push_back(way_x[k]);
+            way_N_y.push_back(way_y[k]);
           }
 
           //calculating Cross Track Error and Steering Error
@@ -131,7 +131,7 @@ int main() {
           double epsi = -atan(coeffs[1]);
 
           // creating state vector
-          Eigen::vectorXd state(6);
+          Eigen::VectorXd state(6);
           state<<0, 0, 0, v_ms, cte, epsi;
 
           double steer_value;
