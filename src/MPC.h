@@ -17,7 +17,6 @@ class MPC {
   vector<double> Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs);
   vector<double> mpc_x;
   vector<double> mpc_y;
-  size_t N;
 };
 
 #endif /* MPC_H */
