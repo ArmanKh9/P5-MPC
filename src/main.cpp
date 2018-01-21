@@ -156,9 +156,6 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
 
-          std::cout<<"----------->Predicted X = "<<mpc.mpc_x[1]<<std::endl;
-          std::cout<<"----------->Predicted Y = "<<mpc.mpc_y[1]<<std::endl;
-
           msgJson["mpc_x"] = mpc_x_vals;
           msgJson["mpc_y"] = mpc_y_vals;
 
