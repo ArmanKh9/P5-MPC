@@ -115,14 +115,13 @@ int main() {
             way_y.push_back(-x_prime*sin(psi) + y_prime*cos(psi));
           }
 
-          //limiting number of waypoints to 10 or N_t (number of time steps) to fit a polynomial
-          int N_t = 10; //this later needs to be set to N in mpc.cpp
-          vector<double> way_N_x(N_t);
-          vector<double> way_N_y(N_t);
+          //limiting number of waypoints to 10 or N (number of time steps) to fit a polynomial
+          Eigen::VectorXd way_N_x(mpc.N);
+          Eigen::VectorXd way_N_y(mpc.N);
 
-          for (int k=0; k<10; k++){
-            way_N_x.push_back(way_x[k]);
-            way_N_y.push_back(way_y[k]);
+          for (int k=0; k<mpc.N; k++){
+            way_N_x[k] = way_x[k];
+            way_N_y[k] = way_y[k];
           }
 
           //calculating Cross Track Error and Steering Error
