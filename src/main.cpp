@@ -117,8 +117,8 @@ int main() {
 
           //limiting number of waypoints to 10 or N_t (number of time steps) to fit a polynomial
           int N_t = 10; //this later needs to be set to N in mpc.cpp
-          Eigen::VectorXd way_N_x(N_t);
-          Eigen::VectorXd way_N_y(N_t);
+          vector<double> way_N_x(N_t);
+          vector<double> way_N_y(N_t);
 
           for (int k=0; k<10; k++){
             way_N_x.push_back(way_x[k]);
