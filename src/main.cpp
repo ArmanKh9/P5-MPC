@@ -138,7 +138,7 @@ int main() {
           double lat = 0.100; // 100 milliseconds
 
           double px_lat = v_ms * lat * cos(psi);
-          double py_lat = v_ms * lat * sin(psi);
+          double py_lat = 0.0;
           double psi_lat = (v_ms / 2.67) * (-1 * delta) * lat;
           double v_lat = v_ms + accel * lat;
           double cte_lat = cte + v_ms * sin(epsi) * lat;
