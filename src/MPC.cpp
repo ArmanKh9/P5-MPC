@@ -260,7 +260,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // creates a 2 element double vector.
 
     mpc_x.clear();
-    mpc_x.clear();
+    mpc_y.clear();
     for (int i = 0; i < N-1; i++) {
       mpc_x.push_back(solution.x[x_start + 1 + i]);
       mpc_y.push_back(solution.x[y_start + 1 + i]);
