@@ -62,7 +62,7 @@ state<<px_lat, py_lat, psi_lat, v_lat_mph, cte_lat, epsi_lat;
 ```
 ## Tuning
 
-As described in the lessons, the cost function in the MPC model needs to tuned to optimize behavior of the solver and its actuation values. It was noted that multiplying the steering value change between timesteps by correction factor of 1000 improve the drive and make steering much smoother. Also, limiting the acceleration cost between timesteps seems to make the drive smoother. A correction factor of 100 was chosen for acceleration between timesteps.
+As described in the lessons, the cost function in the MPC model needs to tuned to optimize behavior of the solver and its actuation values. It was noted that multiplying the steering value change between timesteps by correction factor of 1000 improves the drive and makes steering much smoother. Also, limiting the acceleration cost between timesteps seems to make the drive smoother. A correction factor of 100 was chosen for acceleration between timesteps.
 
 ## Reference Velocity
 
