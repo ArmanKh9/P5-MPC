@@ -5,7 +5,7 @@
 
 This repository provides a solution to the Model Predictive Control (MPC) project of UDACITY Self Driving Car Nanodegree program. The goal of the project is to control drive of a car around a track in the [simulator](https://github.com/udacity/self-driving-car-sim/releases) using MPC strategy. The drive has to be robust with no wavy or abnormal movements. The drive has to be acceptable in real world. Hence keeping the car in the center of the track is critical.
 
-As instructed by the UDACITY, IPOPT and ADCpp libraries need to be used to achieve the project's goal. These libraries provide optimized control actuation values in order to minimize a defined error. The error is result of difference between the car projected position and a fitted polynomial to the desired driving position (waypoints). The optimized values are calculated for a limited number of future time steps to avoid extra calculations. The optimizer communicate only the first set of actuations with the simulator and predicts vehicle states in the future time steps again. This allows the optimizer to actively compute the best actuation values by predicting near future states of the car.
+As instructed by the UDACITY, IPOPT and ADCpp libraries need to be used to achieve the project's goal. These libraries provide optimized control actuation values in order to minimize a defined error. The error is result of difference between the car projected positions and a fitted polynomial to the desired driving position (waypoints). The optimized values are calculated for a limited number of future time steps to avoid extra calculations. The optimizer communicates only the first set of actuations with the simulator and predicts the vehicle states in the future time steps again. This allows the optimizer to actively compute the best actuation values by predicting near future states of the car.
 
 
 ![equations](https://github.com/ArmanKh9/P5-MPC/blob/master/pics/predict.png)
@@ -15,19 +15,19 @@ As instructed by the UDACITY, IPOPT and ADCpp libraries need to be used to achie
 
 - **The Model**: *Student describes their model in detail. This includes the state, actuators and update equations.*
 
-In this project a very simplified model of a vehicle motion is used. The model only takes kinematics of the drive into consideration. However, in reality dynamics of the vehicle plays a critically important role in the vehicle motion that cannot be ignored. In the kinematic model shown below, state of the vehicle including its x and position, heading direction (psi), velocity (v), cte, heading direction error (epsi) are calculated for each time step based on information from the previous timestep.
+In this project a very simplified model of a vehicle motion is used. The model only takes kinematics of the drive into consideration. However, in reality dynamics of the vehicle plays a critically important role in the vehicle motion that cannot be ignored. In the kinematic model shown below, state of the vehicle including its x and position, heading direction (psi), velocity (v), cte, and heading direction error (epsi) are calculated for each time step based on information from the previous timestep.
 
 ![equations](https://github.com/ArmanKh9/P5-MPC/blob/master/pics/eqns.png)
 
 - **Timestep Length and Elapsed Duration (N & dt)**: *Student discusses the reasoning behind the chosen N (timestep length) and dt (elapsed duration between timesteps) values. Additionally the student details the previous values tried.*
 
-In this solution, N=10 timsteps with duration of dt=0.1 for each step were chosen. A small change in dt can sometime cause erratic movements in the track. Small values of dt such as 0.05 were chosen and it resulted in toomany actuation and erratic movement. Larget dt up to 0.4 were also examined which caused distorted polynomial fits and eventually a wavy drive with vehicle getting off the track.
-N=10 is computationally efficient while predicting a long enough future time. Timestep numbers up to 20 were chosen and no significant effect was seen on the drive. However, larger timestep number caused hardware overload and larger latency in communications between the simulator and optimizer.
+In this solution, N=10 timsteps with duration of dt=0.1 for each step are chosen. A small change in dt can sometime cause erratic movements in the track. Small values of dt such as 0.05 were chosen and it resulted in too many actuation and erratic movement. Large dt up to 0.4 were also examined which caused distorted polynomial fits and eventually a wavy drive with vehicle getting off the track.
+N=10 is computationally efficient while predicting a long enough future time. The timestep numbers up to 20 were chosen and no significant effect was seen on the drive. However, larger timestep numbers caused hardware overload and delay in communications between the simulator and optimizer.
 
 
 - **Polynomial Fitting and MPC Preprocessing**: *A polynomial is fitted to waypoints. If the student preprocesses waypoints, the vehicle state, and/or actuators prior to the MPC procedure it is described.*
 
-The waypoints are provided by the simulator in map coordinates. These waypoints were transformed and translated to the vehicle's coordinate system. The vehicle coordinate system assumes the vehicle to be at (0,0) with psi increasing counter-clockwise. This coordinate system change facilitates the polynomial fitting and evaluation process. Also vehicle velocity was converted from m/hr to m/s for a better understanding and consistency in units. However, the velocity was fed to the solver in m/hr unit.
+The waypoints are provided by the simulator in map coordinates. These waypoints are transformed and translated to the vehicle's coordinate system. The vehicle coordinate system assumes the vehicle to be at (0,0) with psi increasing counter-clockwise. This coordinate system change facilitates the polynomial fitting and evaluation process. Also, the vehicle velocity is converted from mile/hr to m/s for a better understanding and consistency in units. However, the velocity is fed to the solver in mile/hr unit.
 
 ```cpp
 //transforming waypoints into vehicle coordinate system negative sign of psi is due to the vehicle model in the simulator
@@ -62,7 +62,7 @@ state<<px_lat, py_lat, psi_lat, v_lat_mph, cte_lat, epsi_lat;
 ```
 ## Tuning
 
-As described in the lessons, the cost function in the MPC model needs to tuned to optimize behavior of the solver and its actuation values. It was noted that multiplying the steering value change between timesteps by correction factor of 1000 improves the drive and makes steering much smoother. Also, limiting the acceleration cost between timesteps seems to make the drive smoother. A correction factor of 100 was chosen for acceleration between timesteps.
+As described in the lessons, the cost function in the MPC model needs to tuned to optimize behavior of the solver and its actuation values. It was noted that multiplying the steering value change between timesteps by correction factor of 1000 improves the drive and makes the steering much smoother. Also, limiting the acceleration cost between timesteps seems to make the drive smoother. A correction factor of 100 was chosen for acceleration between timesteps.
 
 ## Reference Velocity
 
