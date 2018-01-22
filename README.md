@@ -64,9 +64,10 @@ state<<px_lat, py_lat, psi_lat, v_lat_mph, cte_lat, epsi_lat;
 
 As described in the lessons, the cost function in the MPC model needs to tuned to optimize behavior of the solver and its actuation values. It was noted that multiplying the steering value change between timesteps by correction factor of 1000 improve the drive and make steering much smoother. Also, limiting the acceleration cost between timesteps seems to make the drive smoother. A correction factor of 100 was chosen for acceleration between timesteps.
 
-## Tuning
+## Reference Velocity
 
 The tuning process was done for the velocity of 30 mile per hour. The correction factor values may need to change for other velocity values. Also other correction factors needs to be used for higher velocities. However, as the car smoothly drives around the track with the selected velocity and correction factors, no further experimentation was done.
+
 ---
 # *Udacity's original README content*
 
